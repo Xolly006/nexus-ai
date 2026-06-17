@@ -3,15 +3,36 @@ import { useState } from "react"
 function App() {
   const [inputValue, setInputValue] = useState("")
   const [messages,setMessages]=useState([])
-  function handleSend(event){
-    event.preventDefault()
-    const newMessage=inputValue.trim()
+
+  async function handleSend(event){
+    event.preventDefault() // empêcher le refresh de la page 
+    const newMessage=inputValue.trim()//nettoyer le message
+    const url= "http://127.0.0.1:8000/chat"
+
     if( newMessage === ""){
       return
     }
-    setMessages([...messages,newMessage])
+    const convWithUser = [...messages, "Toi : " + newMessage]
+    setMessages(convWithUser)
     setInputValue("")
-    
+
+
+    try{
+      const response = await fetch(url,{method: "POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text : newMessage})});
+      if(!response.ok){
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const nexusAnswer = await response.text();
+      const convWithNexus=[...convWithUser,"Nexus: " + nexusAnswer]
+      setMessages(convWithNexus)
+      
+    }
+    catch(error){
+      console.error(error.message)
+      const convWithError=[...convWithUser,"Erreur: "+error.message]
+      setMessages(convWithError)
+    }
+
   }
   return (
     <div className="app-container">
