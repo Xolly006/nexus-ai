@@ -2,16 +2,26 @@ import { useState } from "react"
 
 function App() {
   const [inputValue, setInputValue] = useState("")
-
+  const [messages,setMessages]=useState([])
+  function handleSend(event){
+    event.preventDefault()
+    const newMessage=inputValue.trim()
+    if( newMessage === ""){
+      return
+    }
+    setMessages([...messages,newMessage])
+    setInputValue("")
+    
+  }
   return (
     <div className="app-container">
       <h1>NEXUS</h1>
 
       <div className="chat-box">
-        <p>Historique des messages à venir...</p>
+        {messages.map((message,index)=>(<p key={index}>{message}</p>))}
       </div>
 
-      <div className="input-area">
+      <form className="input-area" onSubmit={handleSend}>
         <input
           type="text"
           placeholder="Pose ta question à NEXUS..."
@@ -19,12 +29,14 @@ function App() {
           onChange={(event) => setInputValue(event.target.value)}
         />
 
-        <button>Envoyer</button>
-      </div>
+        <button type="submit" >
+          Envoyer
+        </button>
+      </form>
 
-      <p>Tu as écrit : {inputValue}</p>
     </div>
   )
 }
 
 export default App
+ 
