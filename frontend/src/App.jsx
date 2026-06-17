@@ -3,6 +3,7 @@ import { useState } from "react"
 function App() {
   const [inputValue, setInputValue] = useState("")
   const [messages,setMessages]=useState([])
+  const [isLoading ,setIsLoading]=useState(false)
 
   async function handleSend(event){
     event.preventDefault() // empêcher le refresh de la page 
@@ -13,6 +14,7 @@ function App() {
       return
     }
     const convWithUser = [...messages, {role: "user",content:newMessage}]
+    setIsLoading(true)
     setMessages(convWithUser)
     setInputValue("")
 
@@ -24,12 +26,14 @@ function App() {
       }
       const nexusAnswer = await response.text();
       const convWithNexus=[...convWithUser,{role:"assistant" , content: nexusAnswer}]
+      setIsLoading(false)
       setMessages(convWithNexus)
       
     }
     catch(error){
       console.error(error.message)
       const convWithError=[...convWithUser,{role:"error", content:error.message}]
+      setIsLoading(false)
       setMessages(convWithError)
     }
 
@@ -40,6 +44,9 @@ function App() {
 
       <div className="chat-box">
         {messages.map((message,index)=>(<p key={index}>{message.role} : {message.content}</p>))}
+        <div className="load">
+          {isLoading?(<p>Nexus réfléchit...</p>):null}
+        </div>
       </div>
 
       <form className="input-area" onSubmit={handleSend}>
@@ -53,7 +60,9 @@ function App() {
         <button type="submit" >
           Envoyer
         </button>
+
       </form>
+     
 
     </div>
   )
