@@ -12,7 +12,7 @@ function App() {
     if( newMessage === ""){
       return
     }
-    const convWithUser = [...messages, "Toi : " + newMessage]
+    const convWithUser = [...messages, {role: "user",content:newMessage}]
     setMessages(convWithUser)
     setInputValue("")
 
@@ -23,13 +23,13 @@ function App() {
         throw new Error(`Response status: ${response.status}`);
       }
       const nexusAnswer = await response.text();
-      const convWithNexus=[...convWithUser,"Nexus: " + nexusAnswer]
+      const convWithNexus=[...convWithUser,{role:"assistant" , content: nexusAnswer}]
       setMessages(convWithNexus)
       
     }
     catch(error){
       console.error(error.message)
-      const convWithError=[...convWithUser,"Erreur: "+error.message]
+      const convWithError=[...convWithUser,{role:"error", content:error.message}]
       setMessages(convWithError)
     }
 
@@ -39,7 +39,7 @@ function App() {
       <h1>NEXUS</h1>
 
       <div className="chat-box">
-        {messages.map((message,index)=>(<p key={index}>{message}</p>))}
+        {messages.map((message,index)=>(<p key={index}>{message.role} : {message.content}</p>))}
       </div>
 
       <form className="input-area" onSubmit={handleSend}>
