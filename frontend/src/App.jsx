@@ -65,9 +65,6 @@ function App() {
         </button>
 
       </form>
-     
-
-
     </div>
   )
 }
