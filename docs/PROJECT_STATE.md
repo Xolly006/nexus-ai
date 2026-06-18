@@ -6,10 +6,13 @@
 - Le premier commit a ete pousse.
 - Le projet a ete reorganise avec une separation simple entre backend, frontend et documentation.
 - Le chat fonctionne maintenant entre le frontend React et le backend FastAPI.
+- Le MVP chat local est maintenant utilisable.
 - Un prompt système NEXUS existe dans `backend/app/services/ollama.py`.
-- Il définit l’identité de NEXUS.
+- Le prompt système de NEXUS a été affiné.
+- Il définit NEXUS comme une IA locale personnelle, pédagogique, défensive et légale.
 - Il précise le cadre autorisé : labs CTF, machines virtuelles personnelles, applications locales, sites appartenant à Exaucé ou cibles avec permission explicite.
-- NEXUS reste défensif, pédagogique et légal.
+- Si le cadre d’autorisation est flou, NEXUS doit demander une clarification.
+- Si une demande vise une cible réelle non autorisée, NEXUS doit refuser et rediriger vers une approche défensive, légale ou pédagogique.
 
 ## Backend
 
@@ -41,6 +44,12 @@
 - Un etat `isLoading` existe.
 - Pendant l'attente de reponse, l'interface affiche un message de chargement.
 - Le bouton d'envoi est desactive pendant le chargement.
+- Les messages ont des classes CSS basees sur leur role : `message user`, `message assistant`, `message error`.
+- L'interface affiche des bulles de chat basiques.
+- Les messages affichent un label lisible : `Moi` pour `user`, `NEXUS` pour `assistant`, et `Erreur` pour les autres cas.
+- Pendant l'attente, l'interface affiche `Nexus réfléchit...`.
+- Le bouton d'envoi affiche `Attente...` pendant le chargement.
+- En cas d'echec de connexion au backend, l'interface affiche un message clair indiquant de verifier que FastAPI est lance sur `http://127.0.0.1:8000`.
 - `handleSend` contient une garde logique pour eviter un nouvel envoi si `isLoading` est deja actif.
 - Des fichiers issus du template Vite/React semblent encore presents, notamment `frontend/src/assets/react.svg`, `frontend/src/assets/vite.svg` et `frontend/README.md`.
 
@@ -53,6 +62,16 @@
 - `backend/requirements.txt` : dependances Python minimales.
 - `frontend/` : app React + Vite avec formulaire de chat fonctionnel.
 - `docs/` : etat du projet et prochaines etapes.
+
+## Limites actuelles
+
+- Pas encore de streaming cote React.
+- Pas encore de bouton stop.
+- Pas encore de memoire persistante.
+- Pas encore de SQLite.
+- Pas encore de RAG.
+- Pas encore de LangChain.
+- Pas encore de vraie interface finale.
 
 ## Decisions techniques
 
