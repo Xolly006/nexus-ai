@@ -40,6 +40,14 @@
   white-space: pre-wrap;
 }
 
+.message-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
 .message.user {
   align-self: flex-end;
   background: #2f6fed;
