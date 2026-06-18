@@ -46,7 +46,7 @@ function App() {
       <h1>NEXUS</h1>
 
       <div className="chat-box">
-        {messages.map((message,index)=>(<p key={index}>{message.role} : {message.content}</p>))}
+        {messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}>{message.content}</div>))}
         <div className="load">
           {isLoading?(<p>Nexus réfléchit...</p>):null}
         </div>
