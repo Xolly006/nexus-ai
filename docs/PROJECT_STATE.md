@@ -6,6 +6,10 @@
 - Le premier commit a ete pousse.
 - Le projet a ete reorganise avec une separation simple entre backend, frontend et documentation.
 - Le chat fonctionne maintenant entre le frontend React et le backend FastAPI.
+- Un prompt système NEXUS existe dans `backend/app/services/ollama.py`.
+- Il définit l’identité de NEXUS.
+- Il précise le cadre autorisé : labs CTF, machines virtuelles personnelles, applications locales, sites appartenant à Exaucé ou cibles avec permission explicite.
+- NEXUS reste défensif, pédagogique et légal.
 
 ## Backend
 

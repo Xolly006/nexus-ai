@@ -10,3 +10,5 @@
 8. Envisager SQLite seulement quand le chat est stable.
 9. Envisager ChromaDB/RAG encore plus tard pour la memoire intelligente.
 10. Garder LangChain, Docker et l'authentification hors scope pour l'instant.
+11.  Affiner le prompt pour éviter les réponses trop génériques.
+12. Ajouter une structure de configuration dédiée pour l’identité/modèle plus tard.
