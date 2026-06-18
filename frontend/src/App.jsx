@@ -43,12 +43,24 @@ function App() {
     }
 
   }
+  function getMessageLabel(role){
+    if (role==="user") {
+      return "Moi"
+    }
+    else if (role==="assistant"){
+      return "NEXUS"
+    }
+    else{
+      return "Erreur"
+    }
+  }
+
   return (
     <div className="app-container">
       <h1>NEXUS</h1>
 
       <div className="chat-box">
-        {messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}>{message.content}</div>))}
+        {messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}><span className="message-label">{getMessageLabel(message.role)}</span>{message.content}</div>))}
         <div className="load">
           {isLoading?(<p>Nexus réfléchit...</p>):null}
         </div>
