@@ -7,6 +7,9 @@ function App() {
 
   async function handleSend(event){
     event.preventDefault() // empêcher le refresh de la page 
+    if (isLoading){
+      return 
+    }
     const newMessage=inputValue.trim()//nettoyer le message
     const url= "http://127.0.0.1:8000/chat"
 
@@ -57,12 +60,13 @@ function App() {
           onChange={(event) => setInputValue(event.target.value)}
         />
 
-        <button type="submit" >
+        <button type="submit" disabled={isLoading} >
           Envoyer
         </button>
 
       </form>
      
+
 
     </div>
   )
