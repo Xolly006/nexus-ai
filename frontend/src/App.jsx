@@ -36,7 +36,8 @@ function App() {
     }
     catch(error){
       console.error(error.message)
-      const convWithError=[...convWithUser,{role:"error", content:error.message}]
+      const errorMessage = "Impossible de contacter le backend NEXUS. Vérifie que FastAPI est lancé sur http://127.0.0.1:8000."
+      const convWithError=[...convWithUser,{role:"error", content:errorMessage}]
       setIsLoading(false)
       setMessages(convWithError)
     }
