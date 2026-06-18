@@ -63,7 +63,7 @@ function App() {
         />
 
         <button type="submit" disabled={isLoading} >
-          Envoyer
+          {isLoading ?("Attente..."):("Envoyer")}
         </button>
 
       </form>
