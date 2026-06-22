@@ -18,13 +18,14 @@ function App() {
       return
     }
     const convWithUser = [...messages, {role: "user",content:newMessage}]
+    const recentChat=convWithUser.slice(-10)
     setIsLoading(true)
     setMessages(convWithUser)
     setInputValue("")
 
 
     try{
-      const response = await fetch(url,{method: "POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text : newMessage})});
+      const response = await fetch(url,{method: "POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages : recentChat})});
       if(!response.ok){
         throw new Error(`Response status: ${response.status}`);
       }

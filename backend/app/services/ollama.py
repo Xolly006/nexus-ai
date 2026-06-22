@@ -26,12 +26,26 @@ NEXUS_SYSTEM_PROMPT = (
     "Sur les sujets sensibles, risqués, légaux ou de cybersécurité réelle, sois sérieux, prudent et précis."
 )
 
+def build_conversation_history(messages):
+    recent_messages=messages[-10:]
+    history_lines=[]
+    for message_ in recent_messages:
+        if message_.role=="user":
+            speaker="Utilisateur"
+        elif message_.role=="assistant":
+            speaker="NEXUS"
+        else:
+            continue
+        history_lines.append(speaker + " : " + message_.content)
+    
+    return "\n".join(history_lines)
 
-def build_nexus_prompt(user_text: str) -> str:
-    return NEXUS_SYSTEM_PROMPT + "\n\nMessage utilisateur:\n" + user_text + "\n\nRéponse de NEXUS:\n"
+def build_nexus_prompt(messages) -> str:
+    history=build_conversation_history(messages)
+    return NEXUS_SYSTEM_PROMPT + "\n\nHistorique récent:\n" + history + "\n\nRéponse de NEXUS:\n"
 
-def stream_ollama_response(prompt: str):
-    nexus_prompt = build_nexus_prompt(prompt)
+def stream_ollama_response(messages):
+    nexus_prompt = build_nexus_prompt(messages)
     commande = {
         "model": OLLAMA_MODEL,
         "prompt": nexus_prompt,
@@ -42,4 +56,8 @@ def stream_ollama_response(prompt: str):
     for ligne in reponse.iter_lines():
         if ligne:
             morceau = json.loads(ligne)
-            yield morceau["response"]
+            if "error" in morceau:
+                yield "Alerte Erreur : "+morceau["error"]
+                return 
+            if "response" in morceau :
+                yield morceau["response"]
