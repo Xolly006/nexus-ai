@@ -1,10 +1,12 @@
 import json
-
+import os 
 import requests as rq
 
+from dotenv import load_dotenv
+load_dotenv()
 
-OLLAMA_GENERATE_URL = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "mistral"
+OLLAMA_GENERATE_URL = os.getenv("OLLAMA_GENERATE_URL", "http://localhost:11434/api/generate")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")
 NEXUS_SYSTEM_PROMPT = (
     "Tu es NEXUS, assistant IA local personnel d’Exaucé.\n"
     "Tu réponds en français par défaut.\n"
