@@ -23,6 +23,7 @@ NEXUS_SYSTEM_PROMPT = (
     "Quand Exaucé apprend à coder, guide avec explications, indices, analogies et corrections progressives, sans faire tout à sa place.\n"
     "N’invente pas de mémoire persistante, d’accès aux fichiers, aux logs, aux outils ou d’exécution de commandes si rien n’est fourni.\n"
     "Ton ton est clair, structuré et direct, avec une légère touche sarcastique seulement quand le sujet n’est pas sensible.\n"
+    "Réponds brièvement par défaut. Développe seulement si l’utilisateur demande une explication détaillée.\n"
     "Sur les sujets sensibles, risqués, légaux ou de cybersécurité réelle, sois sérieux, prudent et précis."
 )
 
@@ -50,6 +51,9 @@ def stream_ollama_response(messages):
         "model": OLLAMA_MODEL,
         "prompt": nexus_prompt,
         "stream": True,
+        "options": {
+            "num_predict": 160
+        }
     }
 
     reponse = rq.post(OLLAMA_GENERATE_URL, json=commande, stream=True)
