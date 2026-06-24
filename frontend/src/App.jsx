@@ -106,11 +106,29 @@ function App() {
           onChange={(event) => setInputValue(event.target.value)}
         />
 
-        <button type="submit" disabled={isLoading} >
-          {isLoading ?("Attente..."):("Envoyer")}
+        <button
+          className="send-button"
+          type="submit"
+          disabled={isLoading}
+          aria-label={isLoading ? "Envoi en cours" : "Envoyer le message"}
+          title={isLoading ? "Envoi en cours" : "Envoyer"}
+        >
+          {isLoading ? (
+            <span className="spinner" aria-hidden="true"></span>
+          ) : (
+            <span className="send-icon" aria-hidden="true">➜</span>
+          )}
         </button>
         {isLoading ?(
-         <button type="button" onClick={handleStop}>arrêter</button>):null
+         <button
+          className="stop-button"
+          type="button"
+          onClick={handleStop}
+          aria-label="Arrêter la réponse de NEXUS"
+          title="Arrêter la réponse"
+        >
+          Stop
+        </button>):null
         }
 
       </form>
@@ -119,4 +137,3 @@ function App() {
 }
 
 export default App
- 

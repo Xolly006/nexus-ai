@@ -85,6 +85,7 @@
   display: flex;
   gap: 10px;
   margin-top: 16px;
+  align-items: center;
 }
 
 .input-area input {
@@ -103,16 +104,74 @@
 }
 
 .input-area button {
-  padding: 12px 18px;
+  min-height: 46px;
   border-radius: 10px;
   border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.input-area button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.input-area button:focus-visible {
+  outline: 2px solid #7aa2ff;
+  outline-offset: 2px;
+}
+
+.send-button {
+  width: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 52px;
+  padding: 0;
+  border-radius: 10px;
   background: #2f6fed;
   color: white;
-  font-weight: 600;
-  cursor: pointer;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #3b7cff;
+}
+
+.send-icon {
+  display: inline-block;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.28);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+.stop-button {
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border: 1px solid #6b2d36;
+  background: #3a1d24;
+  color: #ffd7dc;
+}
+
+.stop-button:hover {
+  background: #552631;
+  border-color: #ff6b7a;
 }
 
 .input-area button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
