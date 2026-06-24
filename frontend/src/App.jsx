@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useState,useRef } from "react"
 import "./App.css"
 
 function App() {
   const [inputValue, setInputValue] = useState("")
   const [messages,setMessages]=useState([])
   const [isLoading ,setIsLoading]=useState(false)
+  const abortControllerRef=useRef(null)
 
   async function handleSend(event){
     event.preventDefault() // empêcher le refresh de la page 
@@ -19,13 +20,15 @@ function App() {
     }
     const convWithUser = [...messages, {role: "user",content:newMessage}]
     const recentChat=convWithUser.slice(-10)
+    const controller=new AbortController()
+    abortControllerRef.current=controller
     setIsLoading(true)
     setMessages(recentChat)
     setInputValue("")
 
 
     try{
-      const response = await fetch(url,{method: "POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages : recentChat})});
+      const response = await fetch(url,{method: "POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages : recentChat}),signal:controller.signal});
       if(!response.ok){
         throw new Error(`Response status: ${response.status}`);
       }
@@ -48,15 +51,29 @@ function App() {
         setMessages([...convWithUser, { role: "assistant", content: nexusAnswer }])
       }
       setIsLoading(false)
+      abortControllerRef.current = null
     }
     catch(error){
+      if(error.name==="AbortError"){
+        abortControllerRef.current=null
+        setIsLoading(false)
+        return
+      }
       console.error(error.message)
       const errorMessage = "Impossible de contacter le backend NEXUS. Vérifie que FastAPI est lancé sur http://127.0.0.1:8000."
       const convWithError=[...convWithUser,{role:"error", content:errorMessage}]
       setIsLoading(false)
       setMessages(convWithError)
+      abortControllerRef.current = null
     }
 
+  }
+  function handleStop(){
+    if (abortControllerRef.current){
+      abortControllerRef.current.abort()
+      abortControllerRef.current=null
+      setIsLoading(false) 
+    }
   }
   function getMessageLabel(role){
     if (role==="user") {
@@ -92,6 +109,9 @@ function App() {
         <button type="submit" disabled={isLoading} >
           {isLoading ?("Attente..."):("Envoyer")}
         </button>
+        {isLoading ?(
+         <button type="button" onClick={handleStop}>arrêter</button>):null
+        }
 
       </form>
     </div>
