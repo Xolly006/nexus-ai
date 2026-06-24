@@ -7,6 +7,7 @@
 - Le projet a ete reorganise avec une separation simple entre backend, frontend et documentation.
 - Le chat fonctionne maintenant entre le frontend React et le backend FastAPI.
 - Le MVP chat local est maintenant utilisable.
+- La V1 locale est fonctionnellement complete, mais elle n'est pas encore une version deployee ni une interface finale.
 - Un prompt système NEXUS existe dans `backend/app/services/ollama.py`.
 - Le prompt système de NEXUS a été affiné.
 - Il définit NEXUS comme une IA locale personnelle, pédagogique, défensive et légale.
@@ -53,8 +54,11 @@
 - L'interface affiche des bulles de chat basiques.
 - Les messages affichent un label lisible : `Moi` pour `user`, `NEXUS` pour `assistant`, et `Erreur` pour les autres cas.
 - Pendant l'attente, l'interface affiche `Nexus réfléchit...`.
-- Le bouton d'envoi affiche `Attente...` pendant le chargement.
+- La zone de saisie a ete legerement amelioree.
+- Le bouton d'envoi utilise une icone/fleche simple.
+- Pendant `isLoading`, le bouton d'envoi affiche un spinner CSS.
 - Le frontend affiche maintenant un bouton Stop pendant `isLoading`.
+- Le bouton Stop est style plus proprement.
 - Le bouton Stop utilise `AbortController`.
 - `useRef` stocke le controller actif avec `abortControllerRef`.
 - `fetch` recoit `signal: controller.signal`.
@@ -63,6 +67,7 @@
 - La ref est nettoyee apres succes, erreur ou annulation.
 - En cas d'echec de connexion au backend, l'interface affiche un message clair indiquant de verifier que FastAPI est lance sur `http://127.0.0.1:8000`.
 - `handleSend` contient une garde logique pour eviter un nouvel envoi si `isLoading` est deja actif.
+- Le build frontend passe avec `npm run build`.
 - Des fichiers issus du template Vite/React semblent encore presents, notamment `frontend/src/assets/react.svg`, `frontend/src/assets/vite.svg` et `frontend/README.md`.
 
 ## Arborescence resumee
@@ -86,6 +91,7 @@
 - Pas encore de refonte UI complete.
 - Le deploiement n'est pas prioritaire pour l'instant.
 - Le backend n'a pas ete modifie pour la brique Stop.
+- Le backend n'a pas ete modifie pour l'amelioration de la zone de saisie.
 
 ## Decisions techniques
 
