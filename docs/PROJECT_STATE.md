@@ -10,6 +10,7 @@
 - Un prompt système NEXUS existe dans `backend/app/services/ollama.py`.
 - Le prompt système de NEXUS a été affiné.
 - Il définit NEXUS comme une IA locale personnelle, pédagogique, défensive et légale.
+- Le prompt système demande maintenant à NEXUS de répondre brièvement par défaut.
 - Il précise le cadre autorisé : labs CTF, machines virtuelles personnelles, applications locales, sites appartenant à Exaucé ou cibles avec permission explicite.
 - Si le cadre d’autorisation est flou, NEXUS doit demander une clarification.
 - Si une demande vise une cible réelle non autorisée, NEXUS doit refuser et rediriger vers une approche défensive, légale ou pédagogique.
@@ -20,9 +21,11 @@
 - `backend/app/main.py` cree l'application FastAPI.
 - FastAPI expose actuellement `GET /` et `POST /chat`.
 - `GET /` retourne `{"status": "NEXUS online"}`.
-- `POST /chat` accepte un JSON avec `text`.
+- `POST /chat` accepte maintenant un JSON de forme `{ messages: [...] }`.
+- Chaque message a la forme `{ role: "user" | "assistant" | "error", content: "..." }`.
 - `POST /chat` appelle Ollama local sur `http://localhost:11434/api/generate`.
 - Le modele Ollama utilise par le backend est toujours `mistral`.
+- Ollama utilise `options: { num_predict: 160 }` pour limiter la longueur des reponses.
 - La reponse de NEXUS est renvoyee en streaming avec le media type `text/plain`.
 - CORS est configure avec `CORSMiddleware`.
 - Les origines frontend autorisees en developpement sont `http://localhost:5173` et `http://127.0.0.1:5173`.
@@ -36,8 +39,10 @@
 - Le formulaire utilise `onSubmit`.
 - L'envoi fonctionne avec le bouton `Envoyer` et avec la touche Entree.
 - Le frontend appelle maintenant `POST /chat` avec `fetch`.
-- Le body envoye est un JSON de forme `{ text: newMessage }`.
-- Le frontend lit la reponse avec `response.text()`.
+- Le frontend envoie les derniers messages recents avec `recentChat = convWithUser.slice(-10)`.
+- Le body envoye est un JSON de forme `{ messages: [...] }`.
+- Le frontend lit la reponse progressivement avec `response.body.getReader()` et `TextDecoder`.
+- Les reponses de NEXUS s'affichent progressivement dans l'interface.
 - Les messages sont stockes dans l'etat React `messages`.
 - Les messages sont des objets avec `role` et `content`.
 - Les roles actuellement utilises sont `user`, `assistant` et `error`.
@@ -65,23 +70,25 @@
 
 ## Limites actuelles
 
-- Pas encore de streaming cote React.
 - Pas encore de bouton stop.
+- La memoire actuelle est une memoire de session recente, non persistante.
 - Pas encore de memoire persistante.
 - Pas encore de SQLite.
 - Pas encore de RAG.
 - Pas encore de LangChain.
 - Pas encore de vraie interface finale.
+- Pas encore de refonte UI complete.
+- Le deploiement n'est pas prioritaire pour l'instant.
 
 ## Decisions techniques
 
 - Pas de base de donnees pour l'instant.
-- L'historique reste temporairement dans `useState`.
+- L'historique reste temporairement dans `useState` avec une memoire de session recente.
 - Pas de `localStorage` maintenant.
 - `localStorage` pourra etre ajoute plus tard, apres stabilisation de l'interface.
 - SQLite sera envisage seulement quand le chat sera stable.
 - ChromaDB et la memoire intelligente/RAG viendront beaucoup plus tard.
-- Le design avance, le mode sombre/clair, le streaming mot par mot, la memoire et les modules avances restent des etapes futures.
+- Le design avance, le mode sombre/clair, la memoire persistante et les modules avances restent des etapes futures.
 - L'identite avancee de NEXUS sera ajoutee plus tard via un prompt systeme et/ou une configuration backend.
 
 ## Contraintes conservees
