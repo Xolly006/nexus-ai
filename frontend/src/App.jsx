@@ -20,7 +20,7 @@ function App() {
     const convWithUser = [...messages, {role: "user",content:newMessage}]
     const recentChat=convWithUser.slice(-10)
     setIsLoading(true)
-    setMessages(convWithUser)
+    setMessages(recentChat)
     setInputValue("")
 
 
@@ -29,11 +29,25 @@ function App() {
       if(!response.ok){
         throw new Error(`Response status: ${response.status}`);
       }
-      const nexusAnswer = await response.text();
-      const convWithNexus=[...convWithUser,{role:"assistant" , content: nexusAnswer}]
+      if (!response.body) {
+        throw new Error("Response body is empty")
+      }
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let nexusAnswer = ""
+      const convWithAssistant = [...convWithUser, { role: "assistant", content: "" }]
+      setMessages(convWithAssistant)
+
+      while (true) {
+        const { value, done } = await reader.read()
+        if (done) {
+          break
+        }
+        const chunk = decoder.decode(value, { stream: true })
+        nexusAnswer += chunk
+        setMessages([...convWithUser, { role: "assistant", content: nexusAnswer }])
+      }
       setIsLoading(false)
-      setMessages(convWithNexus)
-      
     }
     catch(error){
       console.error(error.message)
