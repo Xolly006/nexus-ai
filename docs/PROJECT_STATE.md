@@ -54,6 +54,13 @@
 - Les messages affichent un label lisible : `Moi` pour `user`, `NEXUS` pour `assistant`, et `Erreur` pour les autres cas.
 - Pendant l'attente, l'interface affiche `Nexus réfléchit...`.
 - Le bouton d'envoi affiche `Attente...` pendant le chargement.
+- Le frontend affiche maintenant un bouton Stop pendant `isLoading`.
+- Le bouton Stop utilise `AbortController`.
+- `useRef` stocke le controller actif avec `abortControllerRef`.
+- `fetch` recoit `signal: controller.signal`.
+- Quand l'utilisateur clique sur Stop, la requete frontend est annulee avec `abortControllerRef.current.abort()`.
+- L'erreur `AbortError` est geree sans afficher le message indiquant que le backend est indisponible.
+- La ref est nettoyee apres succes, erreur ou annulation.
 - En cas d'echec de connexion au backend, l'interface affiche un message clair indiquant de verifier que FastAPI est lance sur `http://127.0.0.1:8000`.
 - `handleSend` contient une garde logique pour eviter un nouvel envoi si `isLoading` est deja actif.
 - Des fichiers issus du template Vite/React semblent encore presents, notamment `frontend/src/assets/react.svg`, `frontend/src/assets/vite.svg` et `frontend/README.md`.
@@ -70,7 +77,6 @@
 
 ## Limites actuelles
 
-- Pas encore de bouton stop.
 - La memoire actuelle est une memoire de session recente, non persistante.
 - Pas encore de memoire persistante.
 - Pas encore de SQLite.
@@ -79,6 +85,7 @@
 - Pas encore de vraie interface finale.
 - Pas encore de refonte UI complete.
 - Le deploiement n'est pas prioritaire pour l'instant.
+- Le backend n'a pas ete modifie pour la brique Stop.
 
 ## Decisions techniques
 
