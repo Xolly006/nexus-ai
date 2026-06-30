@@ -68,8 +68,10 @@
 - En cas d'echec de connexion au backend, l'interface affiche un message clair indiquant de verifier que FastAPI est lance sur `http://127.0.0.1:8000`.
 - `handleSend` contient une garde logique pour eviter un nouvel envoi si `isLoading` est deja actif.
 - Le build frontend passe avec `npm run build`.
-- Des fichiers issus du template Vite/React semblent encore presents, notamment `frontend/src/assets/react.svg`, `frontend/src/assets/vite.svg` et `frontend/README.md`.
-
+- Les anciens assets inutilisés du template Vite/React ont été nettoyés.
+- Le titre HTML de l’application est maintenant `NEXUS`.
+- La langue du document HTML est maintenant `fr`.
+- Le favicon temporaire est conservé en attendant une identité visuelle NEXUS définitive.
 ## Arborescence resumee
 
 - `backend/app/main.py` : point d'entree FastAPI.
