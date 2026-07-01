@@ -89,8 +89,13 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>NEXUS</h1>
-
+      <header className="brand-header">
+        <span className="brand-mark" aria-hidden="true">
+          <span className="brand-core"></span>
+        </span>
+        <h1>NEXUS</h1>
+      </header>
+      
       <div className="chat-box">
         {messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}><span className="message-label">{getMessageLabel(message.role)}</span>{message.content}</div>))}
         <div className="load">
