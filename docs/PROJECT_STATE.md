@@ -8,6 +8,7 @@
 - Le chat fonctionne maintenant entre le frontend React et le backend FastAPI.
 - Le MVP chat local est maintenant utilisable.
 - La V1 locale est fonctionnellement complete, mais elle n'est pas encore une version deployee ni une interface finale.
+- La V2 Phase 0 a commence avec un nettoyage leger du frontend et de l'identite visuelle.
 - Un prompt système NEXUS existe dans `backend/app/services/ollama.py`.
 - Le prompt système de NEXUS a été affiné.
 - Il définit NEXUS comme une IA locale personnelle, pédagogique, défensive et légale.
@@ -71,7 +72,10 @@
 - Les anciens assets inutilisés du template Vite/React ont été nettoyés.
 - Le titre HTML de l’application est maintenant `NEXUS`.
 - La langue du document HTML est maintenant `fr`.
+- Le frontend a maintenant un header de marque avec une petite marque animee en CSS.
+- Cette marque est temporaire et ne represente pas encore un logo final.
 - Le favicon temporaire est conservé en attendant une identité visuelle NEXUS définitive.
+
 ## Arborescence resumee
 
 - `backend/app/main.py` : point d'entree FastAPI.
@@ -94,6 +98,7 @@
 - Le deploiement n'est pas prioritaire pour l'instant.
 - Le backend n'a pas ete modifie pour la brique Stop.
 - Le backend n'a pas ete modifie pour l'amelioration de la zone de saisie.
+- Le backend n'a pas ete modifie pendant le demarrage de la V2 Phase 0.
 
 ## Decisions techniques
 
