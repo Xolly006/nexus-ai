@@ -9,7 +9,7 @@
 ## Petites etapes possibles
 
 1. Ameliorer legerement le style des labels et des bulles.
-2. Harmoniser les petits etats UI restants.
+2. Etat vide et auto-scroll faits (V2 Phase 1). Reste : harmoniser encore labels/bulles si besoin.
 3. Creer une configuration dediee pour le modele et l'identite NEXUS.
 4. Preparer `localStorage` seulement apres stabilisation de l'interface.
 

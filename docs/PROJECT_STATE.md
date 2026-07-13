@@ -75,6 +75,10 @@
 - Le frontend a maintenant un header de marque avec une petite marque animee en CSS.
 - Cette marque est temporaire et ne represente pas encore un logo final.
 - Le favicon temporaire est conservé en attendant une identité visuelle NEXUS définitive.
+- L'interface affiche un état vide quand messages.length est à 0, avec un message d'accueil.
+- Une ref messagesEndRef cible un élément invisible en bas de la chat-box.
+- Un useEffect déclenché sur changement de messages fait défiler automatiquement vers cet élément avec scrollIntoView.
+- V2 Phase 1 est partiellement avancée (état vide + auto-scroll faits ; sidebar et conversations pas encore).
 
 ## Arborescence resumee
 
