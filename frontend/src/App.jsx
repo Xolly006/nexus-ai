@@ -1,4 +1,4 @@
-import { useState,useRef } from "react"
+import { useState,useRef,useEffect } from "react"
 import "./App.css"
 
 function App() {
@@ -6,6 +6,7 @@ function App() {
   const [messages,setMessages]=useState([])
   const [isLoading ,setIsLoading]=useState(false)
   const abortControllerRef=useRef(null)
+  const messagesEndRef = useRef(null)
 
   async function handleSend(event){
     event.preventDefault() // empêcher le refresh de la page 
@@ -86,7 +87,7 @@ function App() {
       return "Erreur"
     }
   }
-
+  useEffect(()=>{messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });},[messages])
   return (
     <div className="app-container">
       <header className="brand-header">
@@ -97,10 +98,11 @@ function App() {
       </header>
       
       <div className="chat-box">
-        {messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}><span className="message-label">{getMessageLabel(message.role)}</span>{message.content}</div>))}
+        {messages.length !== 0? (messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}><span className="message-label">{getMessageLabel(message.role)}</span>{message.content}</div>))):(<div>Nexus est prêt</div>)}
         <div className="load">
           {isLoading?(<p>Nexus réfléchit...</p>):null}
         </div>
+        <div ref={messagesEndRef}></div>
       </div>
 
       <form className="input-area" onSubmit={handleSend}>
