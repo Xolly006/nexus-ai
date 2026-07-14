@@ -3,7 +3,14 @@ import "./App.css"
 
 function App() {
   const [inputValue, setInputValue] = useState("")
-  const [messages,setMessages]=useState([])
+  const [messages,setMessages]=useState(()=>{
+    try{
+      return localStorage.getItem("nexus_historique")? ( JSON.parse(localStorage.getItem("nexus_historique"))):([])}
+    catch{
+      return []
+    }
+    })
+    
   const [isLoading ,setIsLoading]=useState(false)
   const abortControllerRef=useRef(null)
   const messagesEndRef = useRef(null)
@@ -88,6 +95,10 @@ function App() {
     }
   }
   useEffect(()=>{messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });},[messages])
+  useEffect(()=>{
+    const tableToString=JSON.stringify(messages)
+    localStorage.setItem("nexus_historique",tableToString)
+  },[messages])
   return (
     <div className="app-container">
       <header className="brand-header">
