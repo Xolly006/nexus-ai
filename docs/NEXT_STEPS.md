@@ -11,7 +11,8 @@
 1. Ameliorer legerement le style des labels et des bulles.
 2. Etat vide et auto-scroll faits (V2 Phase 1). Reste : harmoniser encore labels/bulles si besoin.
 3. Creer une configuration dediee pour le modele et l'identite NEXUS.
-4. Preparer `localStorage` seulement apres stabilisation de l'interface.
+4. Persistance `localStorage` de la conversation courante en place (V2 Phase 2, premiere brique).
+5. Gerer plusieurs conversations (creer, renommer, supprimer, recharger).
 
 ## Hors scope pour l'instant
 

@@ -79,6 +79,9 @@
 - Une ref messagesEndRef cible un élément invisible en bas de la chat-box.
 - Un useEffect déclenché sur changement de messages fait défiler automatiquement vers cet élément avec scrollIntoView.
 - V2 Phase 1 est partiellement avancée (état vide + auto-scroll faits ; sidebar et conversations pas encore).
+- Au démarrage, messages est initialisé depuis localStorage via une fonction d'initialisation useState, protégée par try/catch.
+- Un useEffect sur messages sauvegarde la conversation dans localStorage à chaque changement.
+- Si la donnée stockée est absente ou corrompue, l'app retombe sur une conversation vide sans planter.
 
 ## Arborescence resumee
 
@@ -108,8 +111,7 @@
 
 - Pas de base de donnees pour l'instant.
 - L'historique reste temporairement dans `useState` avec une memoire de session recente.
-- Pas de `localStorage` maintenant.
-- `localStorage` pourra etre ajoute plus tard, apres stabilisation de l'interface.
+- La conversation courante est persistée dans localStorage sous la clé nexus_historique.
 - SQLite sera envisage seulement quand le chat sera stable.
 - ChromaDB et la memoire intelligente/RAG viendront beaucoup plus tard.
 - Le design avance, le mode sombre/clair, la memoire persistante et les modules avances restent des etapes futures.
@@ -122,4 +124,3 @@
 - Pas de base de donnees.
 - Pas d'authentification.
 - Pas de ChromaDB/RAG maintenant.
-- Pas de `localStorage` maintenant.
