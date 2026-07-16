@@ -79,9 +79,11 @@
 - Une ref messagesEndRef cible un élément invisible en bas de la chat-box.
 - Un useEffect déclenché sur changement de messages fait défiler automatiquement vers cet élément avec scrollIntoView.
 - V2 Phase 1 est partiellement avancée (état vide + auto-scroll faits ; sidebar et conversations pas encore).
-- Au démarrage, messages est initialisé depuis localStorage via une fonction d'initialisation useState, protégée par try/catch.
-- Un useEffect sur messages sauvegarde la conversation dans localStorage à chaque changement.
-- Si la donnée stockée est absente ou corrompue, l'app retombe sur une conversation vide sans planter.
+- L'état React `conversations` contient une liste d'objets `{ id, messages }`, et `activeId` indique la conversation ouverte.
+- Les messages affichés sont retrouvés à chaque rendu en cherchant dans `conversations` celle dont l'id correspond à `activeId` (repli sur une liste vide si aucune correspondance).
+- Les mises à jour de messages (envoi, streaming, erreur) modifient la conversation concernée dans la liste en recopiant l'objet, sans mutation sur place.
+- Au démarrage, `conversations` est initialisé depuis localStorage via une fonction d'initialisation useState, protégée par try/catch, avec repli sur une liste contenant une conversation vide si la donnée est absente ou corrompue.
+- Un useEffect sur `conversations` sauvegarde la liste dans localStorage à chaque changement.
 
 ## Arborescence resumee
 
@@ -111,7 +113,7 @@
 
 - Pas de base de donnees pour l'instant.
 - L'historique reste temporairement dans `useState` avec une memoire de session recente.
-- La conversation courante est persistée dans localStorage sous la clé nexus_historique.
+- La liste des conversations est persistée dans localStorage sous la clé nexus_conversations.
 - SQLite sera envisage seulement quand le chat sera stable.
 - ChromaDB et la memoire intelligente/RAG viendront beaucoup plus tard.
 - Le design avance, le mode sombre/clair, la memoire persistante et les modules avances restent des etapes futures.
