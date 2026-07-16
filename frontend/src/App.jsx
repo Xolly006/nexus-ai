@@ -3,14 +3,16 @@ import "./App.css"
 
 function App() {
   const [inputValue, setInputValue] = useState("")
-  const [messages,setMessages]=useState(()=>{
+  const [conversations , setConversations] =useState(()=>{
     try{
-      return localStorage.getItem("nexus_historique")? ( JSON.parse(localStorage.getItem("nexus_historique"))):([])}
+      return localStorage.getItem("nexus_conversations")? ( JSON.parse(localStorage.getItem("nexus_conversations"))):([{id: "1", messages: []}])}
     catch{
-      return []
+      return [{id:"1",messages:[]}]
     }
-    })
-    
+  })
+  const [activeId ,setActiveId]=useState("1")
+  const activeConv=conversations.find(conv => conv.id ===activeId)
+  const messages=activeConv?(activeConv.messages):([] )
   const [isLoading ,setIsLoading]=useState(false)
   const abortControllerRef=useRef(null)
   const messagesEndRef = useRef(null)
@@ -31,7 +33,13 @@ function App() {
     const controller=new AbortController()
     abortControllerRef.current=controller
     setIsLoading(true)
-    setMessages(recentChat)
+    setConversations(ancienClasseur => 
+    ancienClasseur.map(conv => {
+      if (conv.id === activeId) {
+        return { ...conv, messages:recentChat};
+      }
+      return conv;
+    }));
     setInputValue("")
 
 
@@ -47,8 +55,13 @@ function App() {
       const decoder = new TextDecoder()
       let nexusAnswer = ""
       const convWithAssistant = [...convWithUser, { role: "assistant", content: "" }]
-      setMessages(convWithAssistant)
-
+        setConversations(ancienClasseur => 
+        ancienClasseur.map(conv => {
+          if (conv.id === activeId) {
+            return { ...conv, messages: convWithAssistant };
+          }
+          return conv;
+       }))
       while (true) {
         const { value, done } = await reader.read()
         if (done) {
@@ -56,7 +69,13 @@ function App() {
         }
         const chunk = decoder.decode(value, { stream: true })
         nexusAnswer += chunk
-        setMessages([...convWithUser, { role: "assistant", content: nexusAnswer }])
+        setConversations(ancienClasseur => 
+        ancienClasseur.map(conv => {
+          if (conv.id === activeId) {
+            return { ...conv, messages: [...convWithUser,{role:"assistant",content:nexusAnswer}] };
+          }
+          return conv;
+        }))
       }
       setIsLoading(false)
       abortControllerRef.current = null
@@ -71,7 +90,13 @@ function App() {
       const errorMessage = "Impossible de contacter le backend NEXUS. Vérifie que FastAPI est lancé sur http://127.0.0.1:8000."
       const convWithError=[...convWithUser,{role:"error", content:errorMessage}]
       setIsLoading(false)
-      setMessages(convWithError)
+      setConversations(ancienClasseur => 
+      ancienClasseur.map(conv => {
+        if (conv.id === activeId) {
+          return { ...conv, messages:convWithError};
+        }
+        return conv;
+      }));
       abortControllerRef.current = null
     }
 
@@ -96,9 +121,9 @@ function App() {
   }
   useEffect(()=>{messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });},[messages])
   useEffect(()=>{
-    const tableToString=JSON.stringify(messages)
-    localStorage.setItem("nexus_historique",tableToString)
-  },[messages])
+    const tableToString=JSON.stringify(conversations)
+    localStorage.setItem("nexus_conversations",tableToString)
+  },[conversations])
   return (
     <div className="app-container">
       <header className="brand-header">
