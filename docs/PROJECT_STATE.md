@@ -84,6 +84,8 @@
 - Les mises à jour de messages (envoi, streaming, erreur) modifient la conversation concernée dans la liste en recopiant l'objet, sans mutation sur place.
 - Au démarrage, `conversations` est initialisé depuis localStorage via une fonction d'initialisation useState, protégée par try/catch, avec repli sur une liste contenant une conversation vide si la donnée est absente ou corrompue.
 - Un useEffect sur `conversations` sauvegarde la liste dans localStorage à chaque changement.
+- Une zone History affiche la liste des conversations sous forme d'éléments cliquables.
+- Cliquer sur une conversation la rend active via `setActiveId`.
 
 ## Arborescence resumee
 
