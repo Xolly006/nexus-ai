@@ -108,6 +108,11 @@ function App() {
       setIsLoading(false) 
     }
   }
+  function handleNewConv(){
+    const newId=crypto.randomUUID()
+    setConversations(ancienClasseur=>[...ancienClasseur,{id:newId,messages:[]}]);
+    setActiveId(newId)
+  }
   function getMessageLabel(role){
     if (role==="user") {
       return "Moi"
@@ -134,6 +139,9 @@ function App() {
       </header>
       <div className="History">
         {(conversations.map((conversation)=>(<div key={conversation.id} onClick={()=>setActiveId(conversation.id)}>{conversation.id}</div>)))}
+      </div>
+      <div className="new-session">
+        <button onClick={handleNewConv}>+</button>
       </div>
       <div className="chat-box">
         {messages.length !== 0? (messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}><span className="message-label">{getMessageLabel(message.role)}</span>{message.content}</div>))):(<div>Nexus est prêt</div>)}
