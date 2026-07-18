@@ -12,7 +12,7 @@
 2. Etat vide et auto-scroll faits (V2 Phase 1). Reste : harmoniser encore labels/bulles si besoin.
 3. Creer une configuration dediee pour le modele et l'identite NEXUS.
 4. Persistance `localStorage` de la conversation courante en place (V2 Phase 2, premiere brique).
-5. Liste des conversations affichee et selection active faites ; reste : bouton pour creer une nouvelle conversation, suppression, renommage, et style.
+5. Liste, selection active et creation de conversation faites ; reste : suppression, renommage, et style.
 
 ## Hors scope pour l'instant
 

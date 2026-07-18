@@ -86,6 +86,7 @@
 - Un useEffect sur `conversations` sauvegarde la liste dans localStorage à chaque changement.
 - Une zone History affiche la liste des conversations sous forme d'éléments cliquables.
 - Cliquer sur une conversation la rend active via `setActiveId`.
+- Un bouton "+" cree une nouvelle conversation via `handleNewConv` (id genere avec `crypto.randomUUID()`), qui devient aussitot active.
 
 ## Arborescence resumee
 
