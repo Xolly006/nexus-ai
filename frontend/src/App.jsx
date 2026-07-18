@@ -132,7 +132,9 @@ function App() {
         </span>
         <h1>NEXUS</h1>
       </header>
-      
+      <div className="History">
+        {(conversations.map((conversation)=>(<div key={conversation.id} onClick={()=>setActiveId(conversation.id)}>{conversation.id}</div>)))}
+      </div>
       <div className="chat-box">
         {messages.length !== 0? (messages.map((message,index)=>(<div key={index} className={`message ${message.role}`}><span className="message-label">{getMessageLabel(message.role)}</span>{message.content}</div>))):(<div>Nexus est prêt</div>)}
         <div className="load">
