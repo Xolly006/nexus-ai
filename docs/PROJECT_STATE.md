@@ -87,6 +87,9 @@
 - Une zone History affiche la liste des conversations sous forme d'éléments cliquables.
 - Cliquer sur une conversation la rend active via `setActiveId`.
 - Un bouton "+" cree une nouvelle conversation via `handleNewConv` (id genere avec `crypto.randomUUID()`), qui devient aussitot active.
+- Chaque conversation a un bouton "×" qui appelle `handleDeleteConv(id)` et la retire de la liste via `.filter()`.
+- Si la conversation supprimee etait l'active, `activeId` est remis a une chaine vide, ce qui ramene a l'ecran d'accueil.
+- `handleSend` cree une nouvelle conversation active si aucune conversation active valide n'existe au moment de l'envoi.
 
 ## Arborescence resumee
 
