@@ -28,6 +28,13 @@ function App() {
     if( newMessage === ""){
       return
     }
+    let targetId=activeId
+    if (activeConv===undefined){
+      const newId=crypto.randomUUID()
+      setConversations(ancienClasseur=>[...ancienClasseur,{id:newId,messages:[]}]);
+      setActiveId(newId)
+      targetId=newId
+    }
     const convWithUser = [...messages, {role: "user",content:newMessage}]
     const recentChat=convWithUser.slice(-10)
     const controller=new AbortController()
@@ -35,11 +42,11 @@ function App() {
     setIsLoading(true)
     setConversations(ancienClasseur => 
     ancienClasseur.map(conv => {
-      if (conv.id === activeId) {
+      if (conv.id === targetId) {
         return { ...conv, messages:recentChat};
       }
-      return conv;
-    }));
+      return conv
+    }))
     setInputValue("")
 
 
@@ -57,10 +64,10 @@ function App() {
       const convWithAssistant = [...convWithUser, { role: "assistant", content: "" }]
         setConversations(ancienClasseur => 
         ancienClasseur.map(conv => {
-          if (conv.id === activeId) {
-            return { ...conv, messages: convWithAssistant };
+          if (conv.id === targetId) {
+            return { ...conv, messages: convWithAssistant }
           }
-          return conv;
+          return conv
        }))
       while (true) {
         const { value, done } = await reader.read()
@@ -71,7 +78,7 @@ function App() {
         nexusAnswer += chunk
         setConversations(ancienClasseur => 
         ancienClasseur.map(conv => {
-          if (conv.id === activeId) {
+          if (conv.id === targetId) {
             return { ...conv, messages: [...convWithUser,{role:"assistant",content:nexusAnswer}] };
           }
           return conv;
@@ -92,11 +99,11 @@ function App() {
       setIsLoading(false)
       setConversations(ancienClasseur => 
       ancienClasseur.map(conv => {
-        if (conv.id === activeId) {
+        if (conv.id === targetId) {
           return { ...conv, messages:convWithError};
         }
         return conv;
-      }));
+      }))
       abortControllerRef.current = null
     }
 
@@ -124,6 +131,12 @@ function App() {
       return "Erreur"
     }
   }
+  function handleDeleteConv(id){
+    setConversations(ancienClasseur=>ancienClasseur.filter(conv=>conv.id!==id))
+    if (activeId===id){
+      setActiveId("")
+    }
+  }
   useEffect(()=>{messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });},[messages])
   useEffect(()=>{
     const tableToString=JSON.stringify(conversations)
@@ -138,7 +151,9 @@ function App() {
         <h1>NEXUS</h1>
       </header>
       <div className="History">
-        {(conversations.map((conversation)=>(<div key={conversation.id} onClick={()=>setActiveId(conversation.id)}>{conversation.id}</div>)))}
+        {(conversations.map((conversation)=>(<div key={conversation.id} onClick={()=>setActiveId(conversation.id)}>{conversation.id}
+          <button onClick={()=>handleDeleteConv(conversation.id)}>X</button>
+        </div>)))}
       </div>
       <div className="new-session">
         <button onClick={handleNewConv}>+</button>
